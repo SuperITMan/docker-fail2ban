@@ -26,7 +26,7 @@ superitman/fail2ban:latest
 If you have a lot of custom rules, build your own docker image
 ```
 $ git clone https://github.com/superitman/docker-fail2ban.git
-cd docker-fail2ban
+$ cd docker-fail2ban
 ```
 Copy your filters in filter.d folder, your rules in rules.d and your jail.local in the current folder.
 
