@@ -1,10 +1,10 @@
-#docker-fail2ban
+# docker-fail2ban
 
 Simple docker contains a complete installation of fail2ban on Debian Jessie.
 
 This first version contains fail2ban-0.8.13-1.
 
-###Usage
+### Usage
 To run it:
 ```
 $ docker run -d -it \
@@ -32,7 +32,7 @@ If you want to sync fail2ban docker timezone with your host, add this argument
 -v /etc/timezone:/etc/timezone.host:ro
 ```
 
-###Lots of filters and actions
+### Lots of filters and actions
 
 If you have a lot of custom rules, build your own docker image
 ```
