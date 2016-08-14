@@ -1,14 +1,31 @@
 [DEFAULT]
 
-# "ignoreip" can be an IP address, a CIDR mask or a DNS host
-ignoreip = 127.0.0.1 192.168.0.99
+# "ignoreip" can be an IP address, a CIDR mask or a DNS host. Fail2ban will not
+# ban a host which matches an address in this list. Several addresses can be
+# defined using space separator.
+ignoreip = 127.0.0.1/8
+
+# "bantime" is the number of seconds that a host is banned.
 bantime  = 600
+
+# A host is banned if it has generated "maxretry" during the last "findtime"
+# seconds.
+findtime = 600
 maxretry = 3
 
-# "backend" specifies the backend used to get files modification. Available
-# options are "gamin", "polling" and "auto".
-# yoh: For some reason Debian shipped python-gamin didn't work as expected
-#      This issue left ToDo, so polling is default backend for now
+# "backend" specifies the backend used to get files modification.
+# Available options are "pyinotify", "gamin", "polling" and "auto".
+# This option can be overridden in each jail as well.
+#
+# pyinotify: requires pyinotify (a file alteration monitor) to be installed.
+#            If pyinotify is not installed, Fail2ban will use auto.
+# gamin:     requires Gamin (a file alteration monitor) to be installed.
+#            If Gamin is not installed, Fail2ban will use auto.
+# polling:   uses a polling algorithm which does not require external libraries.
+# auto:      will try to use the following backends, in order:
+#            pyinotify, gamin, polling.
+#
+# For unknown reason, should be "polling"
 backend = polling
 
 #
@@ -16,13 +33,25 @@ backend = polling
 # jail.{conf,local} configuration files.
 destemail = root@localhost
 
-# Default action to take: ban only
-action = iptables[name=%(__name__)s, port=%(port)s]
+#
+# Name of the sender for mta actions
+sendername = Fail2Ban
 
+# Email address of the sender
+sender = fail2ban@localhost
 
 [ssh]
-enabled = true
-port    = ssh
-filter  = sshd
+
+enabled  = true
+port     = ssh
+filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 5
+
+[dkr-apache-multiport]
+
+enabled   = false
+filter    = apache-auth
+logpath   = /var/log/apache*/*error.log
+action    = docker-iptables-multiports[name=NoAuthFailures, port="http,https"]
+maxretry  = 6

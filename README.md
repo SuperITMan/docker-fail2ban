@@ -7,18 +7,29 @@ This first version contains fail2ban-0.8.13-1.
 ###Usage
 To run it:
 ```
-$ docker run -d \
+$ docker run -d -it \
 -v /var/log:/var/log \
+--name fail2ban \
+--net host \
+--privileged \
 superitman/fail2ban:latest
 ```
     
 If you want to use your own jail.local and your own filters:
 ```
-$ docker run -d \
--v /path/to/filters.d/custom_filter.conf:/etc/fail2ban/filter.d/custom_filter.conf \
+$ docker run -d -it \
+-v /path/to/filter.d/custom_filter.conf:/etc/fail2ban/filter.d/custom_filter.conf \
 -v /path/to/jail.local:/etc/fail2ban/jail.local \
 -v /var/log:/var/log \
+--name fail2ban \
+--net host \
+--privileged \
 superitman/fail2ban:latest
+```
+
+If you want to sync fail2ban docker timezone with your host, add this argument
+```
+-v /etc/timezone:/etc/timezone.host:ro \
 ```
 
 ###Lots of filters and actions
@@ -37,7 +48,10 @@ $ docker build -t your-custom-fail2ban .
 
 When your image is ready, run it:
 ```
-$ docker run -d \
+$ docker run -d -it \
 -v /var/log:/var/log \
+--name fail2ban \
+--net host \
+--privileged \
 your-custom-fail2ban
 ```
