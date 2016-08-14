@@ -53,5 +53,5 @@ maxretry = 5
 enabled   = false
 filter    = apache-auth
 logpath   = /var/log/apache*/*error.log
-action    = docker-iptables-multiports[name=NoAuthFailures, port="http,https"]
+action    = docker-iptables-multiport[name=NoAuthFailures, port="http,https"]
 maxretry  = 6
