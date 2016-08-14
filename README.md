@@ -41,7 +41,7 @@ If you have a lot of custom rules, build your own docker image
 $ git clone https://github.com/superitman/docker-fail2ban.git
 $ cd docker-fail2ban
 ```
-Copy your filters in filter.d folder, your rules in rules.d and your jail.local in the current folder.
+Copy your filters in filter.d folder, your actions in action.d and your jail.local in the current folder.
 
 Then build your image
 ```
@@ -57,3 +57,6 @@ $ docker run -d -it \
 --privileged \
 your-custom-fail2ban
 ```
+
+## To-Do
+- Should edit jail.conf to use docker-iptables-multiport action
