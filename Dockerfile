@@ -1,11 +1,14 @@
 FROM debian:jessie
 MAINTAINER SuperITMan <admin@superitman.com>
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update -y -q && \
+    apt-get install -y -q --no-install-recommends\
     fail2ban \
     iptables \
-    && export DEBIAN_FRONTEND=noninteractive \
+    exim4 \
+    bsd-mailx \
+    whois \
     && rm -rf /var/lib/apt/lists/*
 
 ADD docker-entrypoint.sh /usr/bin/entrypoint.sh
