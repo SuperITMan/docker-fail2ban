@@ -20,4 +20,4 @@ COPY jail.local ./
 COPY filter.d/ ./filter.d/
 COPY action.d/ ./action.d/
 
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
