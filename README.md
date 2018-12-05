@@ -1,13 +1,30 @@
-# docker-fail2ban
+# SuperITMan/fail2ban
 
-Fail2Ban for docker environment. This is compatible with docker web hosts.
+## About
 
-For this, you should use action **docker-iptables-multiport** which works as iptables-multiport
+Available on Docker Hub: [superitman/fail2ban](https://hub.docker.com/r/superitman/fail2ban/)
 
-This first version contains fail2ban-0.8.13-1.
+A simple container with Fail2Ban installed inside to use in docker environment.
 
-### Usage
-To run it:
+This is compatible with docker web hosts. For this, you should use action **docker-iptables-multiport** which works as iptables-multiport
+
+The current installed version is fail2ban-0.8.13-1 (latest one available on Debian Jessie repository)
+
+## Usage
+##### To run it:
+
+* Docker >= 1.2: ([See GitHub issue](https://github.com/moby/moby/issues/33605#issuecomment-307361421))
+```
+$ docker run -d -it \
+-v /var/log:/var/log \
+--name fail2ban \
+--net host \
+--cap-add=NET_ADMIN \
+--cap-add=NET_RAW \
+superitman/fail2ban:latest
+```
+
+* (Docker < 1.2):
 ```
 $ docker run -d -it \
 -v /var/log:/var/log \
@@ -16,8 +33,8 @@ $ docker run -d -it \
 --privileged \
 superitman/fail2ban:latest
 ```
-    
-If you want to use your own jail.local and your own filters:
+ 
+##### If you want to use your own jail.local and your own filters:
 ```
 $ docker run -d -it \
 -v /path/to/filter.d/custom_filter.conf:/etc/fail2ban/filter.d/custom_filter.conf \
@@ -25,7 +42,8 @@ $ docker run -d -it \
 -v /var/log:/var/log \
 --name fail2ban \
 --net host \
---privileged \
+--cap-add=NET_ADMIN \
+--cap-add=NET_RAW \
 superitman/fail2ban:latest
 ```
 
@@ -59,4 +77,5 @@ your-custom-fail2ban
 ```
 
 ## To-Do
-- Should edit jail.conf to use docker-iptables-multiport action
+
+* Should edit jail.conf to use docker-iptables-multiport action
